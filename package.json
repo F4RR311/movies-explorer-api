@@ -8,9 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint .",
     "start": "node app.js"
-
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/F4RR311/movies-explorer-api.git"
@@ -22,6 +20,7 @@
   },
   "homepage": "https://github.com/F4RR311/movies-explorer-api#readme",
   "dependencies": {
-    "mongoose": "^6.5.0"
+    "mongoose": "^6.5.0",
+    "validator": "^13.7.0"
   }
 }
