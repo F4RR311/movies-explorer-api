@@ -41,7 +41,7 @@ module.exports.updateUserInfo = (req, res, next) => {
         })
 }
 
-module.exports.createUser = (req, res, next) => {
+module.exports.signup = (req, res, next) => {
     const {name, email, password} = req.body;
 
     bcrypt.hash(password, 10)
@@ -59,7 +59,7 @@ module.exports.createUser = (req, res, next) => {
             }
         });
 };
-module.exports.login = (req, res, next) => {
+module.exports.signin = (req, res, next) => {
     const {email, password} = req.body;
     User.findOne({email})
         .select("+password") // в случае аутентификации хеш пароля нужен

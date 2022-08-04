@@ -9,23 +9,22 @@ const validateURL = (value) => {
 };
 
 const validUserId = celebrate({
-    params: Joi.object().keys({
-        userId: Joi.string().alphanum().length(24).hex(),
+    body: Joi.object().keys({
+        name: Joi.string().min(2).max(30).required(),
+        email: Joi.string().email().required(),
     }),
 });
 
-const validLogin = celebrate({
+const signupUser = celebrate({
     body: Joi.object().keys({
         email: Joi.string().required().email(),
         password: Joi.string().required(),
+        name: Joi.string().min(2).max(30).required(),
     }),
 });
 
-const validUser = celebrate({
+const signinUser = celebrate({
     body: Joi.object().keys({
-        name: Joi.string().min(2).max(30),
-        about: Joi.string().min(2).max(30),
-        avatar: Joi.string().custom(validateURL),
         email: Joi.string().required().email(),
         password: Joi.string().required(),
     }),
@@ -47,10 +46,16 @@ const movieValid = celebrate({
     }),
 });
 
+const movieId = celebrate({
+    params: Joi.object().keys({
+        _id: Joi.string().hex().length(24),
+    }),
+});
 module.exports = {
-  movieValid,
-  validUserId,
-  validLogin,
-  validUser,
+    movieValid,
+    validUserId,
+    signupUser,
+    signinUser,
+    movieId
 
 };

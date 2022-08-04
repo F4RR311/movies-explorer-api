@@ -29,3 +29,20 @@ module.exports.getMovies = (req, res, next) => {
         })
         .catch(next);
 }
+
+module.exports.deleteMovie = (req, res, next) => {
+    Movie.findById(req.params._id)
+        .then((movie) => {
+            if (!movie) {
+                throw new ErrorNotFound('Данные не найдены');
+            }
+
+            if (movie.owner.toString() !== req.user._id) {
+                throw new Forbidden('Нельзя удалять чужие фильмы');
+            }
+
+            return movieModel.findByIdAndDelete(movie._id)
+                .then((deleted) => res.send(deleted));
+        })
+        .catch(next);
+};
