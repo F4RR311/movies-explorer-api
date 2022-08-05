@@ -16,6 +16,7 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
+    "nodemon": "^2.0.19",
     "validator": "^13.7.0",
     "winston": "^3.7.2"
   },
@@ -35,5 +36,4 @@
     "url": "https://github.com/F4RR311/movies-explorer-api/issues"
   },
   "homepage": "https://github.com/F4RR311/movies-explorer-api#readme"
-
 }
