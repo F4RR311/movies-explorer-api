@@ -1,5 +1,5 @@
-const { Schema, model, Types } = require('mongoose');
-const validator = require('validator');
+const { Schema, model  } = require('mongoose');
+
 
 
 const { isEmail } = require('validator');

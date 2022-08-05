@@ -6,7 +6,7 @@ const Forbidden = require("../errors/Forbidden_403");
 module.exports.createMovie = (req, res, next) => {
     req.body.owner = req.user._id;
 
-    movieModel.create(req.body)
+  Movie.create(req.body)
         .then((movie) => res.send(movie))
         .catch(next);
 };
@@ -14,21 +14,10 @@ module.exports.createMovie = (req, res, next) => {
 
 //# возвращает все сохранённые текущим  пользователем фильмы GET /movies
 module.exports.getMovies = (req, res, next) => {
-    Movie.findById(req.params._id)
-        .then((movie) => {
-            if (!movie) {
-                throw new ErrorNotFound;
-            }
-
-            if (movie.owner.toString() !== req.user._id) {
-                throw new Forbidden;
-            }
-
-            return movieModel.findByIdAndDelete(movie._id)
-                .then((deleted) => res.send(deleted));
-        })
-        .catch(next);
-}
+  Movie.find({ owner: req.user._id })
+    .then((movies) => res.send(movies))
+    .catch(next);
+};
 
 module.exports.deleteMovie = (req, res, next) => {
     Movie.findById(req.params._id)
@@ -41,7 +30,7 @@ module.exports.deleteMovie = (req, res, next) => {
                 throw new Forbidden('Нельзя удалять чужие фильмы');
             }
 
-            return movieModel.findByIdAndDelete(movie._id)
+            return Movie.findByIdAndDelete(movie._id)
                 .then((deleted) => res.send(deleted));
         })
         .catch(next);

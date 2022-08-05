@@ -41,6 +41,7 @@ module.exports.updateUserInfo = (req, res, next) => {
         })
 }
 
+// Регистрация
 module.exports.signup = (req, res, next) => {
     const {name, email, password} = req.body;
 
@@ -59,6 +60,8 @@ module.exports.signup = (req, res, next) => {
             }
         });
 };
+
+// Логин
 module.exports.signin = (req, res, next) => {
     const {email, password} = req.body;
     User.findOne({email})

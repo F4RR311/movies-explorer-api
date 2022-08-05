@@ -18,7 +18,7 @@ const { PORT = port, MONGOD_SERVER = mongodbServer } = process.env;
 
 const app = express();
 
-mongoose.connect(MONGOD_SERVER);
+mongoose.connect(MONGOD_SERVER,{ useNewUrlParser: true });
 
 
 app.use(cors)
