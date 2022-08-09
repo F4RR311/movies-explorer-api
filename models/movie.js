@@ -1,4 +1,4 @@
-const {Schema, model, Types} = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const validator = require('validator');
 
@@ -57,7 +57,7 @@ const movie = new Schema({
   },
   movieId: {
     type: Number,
-    required: true
+    required: true,
 
   },
   nameRU: {
@@ -69,8 +69,6 @@ const movie = new Schema({
     required: true,
   },
 
-}, { versionKey: false })
+}, { versionKey: false });
 
 module.exports = model('movie', movie);
-
-

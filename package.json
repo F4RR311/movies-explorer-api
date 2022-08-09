@@ -1,8 +1,15 @@
 {
   "name": "movies-explorer-api",
+
   "version": "1.0.0",
   "description": "Разработка бэкенда для дипломной работы.",
   "main": "index.js",
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.19"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
@@ -16,7 +23,7 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
-    "nodemon": "^2.0.19",
+
     "validator": "^13.7.0",
     "winston": "^3.7.2"
   },
@@ -30,7 +37,7 @@
     "type": "git",
     "url": "git+https://github.com/F4RR311/movies-explorer-api.git"
   },
-  "author": "",
+  "author": "Valeriy Leontiev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/F4RR311/movies-explorer-api/issues"

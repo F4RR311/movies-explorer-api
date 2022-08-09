@@ -18,7 +18,7 @@ router.use('/movies', movies);
 router.post('/signout', signout);
 
 router.use('*', () => {
-    throw new ErrorNotFound('Некорректный путь запроса');
+  throw new ErrorNotFound('Некорректный путь запроса');
 });
 
 module.exports = router;
