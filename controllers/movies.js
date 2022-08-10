@@ -18,7 +18,6 @@ module.exports.getMovies = (req, res, next) => {
     .catch(next);
 };
 
-
 module.exports.deleteMovie = async (req, res, next) => {
   try {
     const movie = await Movie.findById(req.params._id);
@@ -26,12 +25,11 @@ module.exports.deleteMovie = async (req, res, next) => {
       throw new ErrorNotFound('Данные не найдены');
     }
     if (movie.owner._id.toString() !== req.user._id) {
-       throw new Forbidden('Вы можете удалять только свои фильмы');
+      throw new Forbidden('Вы можете удалять только свои фильмы');
     }
     await Movie.findByIdAndRemove(req.params._id);
     res.send(movie);
   } catch (err) {
-
     next(err);
   }
 };
