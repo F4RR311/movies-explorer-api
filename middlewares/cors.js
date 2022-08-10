@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://api.f4rr311.nomoredomains.sbs',
-  'http://api.f4rr311.nomoredomains.sbs',
+  'https://f4rr311.nomoredomains.xyz',
+  'http://f4rr311.nomoredomains.xyz',
   'localhost:3000',
   'http://localhost:3000',
 ];
