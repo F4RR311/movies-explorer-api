@@ -31,6 +31,7 @@ module.exports.deleteMovie = async (req, res, next) => {
     await Movie.findByIdAndRemove(req.params._id);
     res.send(movie);
   } catch (err) {
+
     next(err);
   }
 };
