@@ -18,20 +18,19 @@ module.exports.getMovies = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.movieId)
-    .orFail(() => next(new ErrorNotFound('Фильм с указанным _id не найден')))
-    .then((movie) => {
-      if (!movie) {
-        throw new ErrorNotFound('Данные не найдены');
-      }
 
-      if (!movie.owner.equals(req.user._id)) {
-        throw new Forbidden('Нельзя удалять чужие фильмы');
-      }
-
-      return Movie.deleteOne(movie)
-        .then(() => res.send(movie));
-    })
-    .catch(next);
+module.exports.deleteMovie = async (req, res, next) => {
+  try {
+    const movie = await Movie.findById(req.params._id);
+    if (!movie) {
+      throw new ErrorNotFound('Данные не найдены');
+    }
+    if (movie.owner._id.toString() !== req.user._id) {
+       throw new Forbidden('Вы можете удалять только свои фильмы');
+    }
+    await Movie.findByIdAndRemove(req.params._id);
+    res.send(movie);
+  } catch (err) {
+    next(err);
+  }
 };

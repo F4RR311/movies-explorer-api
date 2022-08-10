@@ -5,9 +5,9 @@ const ErrorNotFound = require('../errors/ErrorNotFound_404');
 const ErrorConflict = require('../errors/ErrorConflict_409');
 const BadRequestError = require('../errors/BadRequestError_400');
 const Unauthorized = require('../errors/Unauthorized_401');
-const { secretTokenKey } = require('../utils/config');
+const {secretTokenKey} = require('../utils/config');
 
-const { JWT_SECRET, NODE_ENV } = process.env;
+const {JWT_SECRET, NODE_ENV} = process.env;
 
 // GET /users/me - возвращает информацию о текущем пользователе
 module.exports.getUserMe = (req, res, next) => {
@@ -23,9 +23,9 @@ module.exports.getUserMe = (req, res, next) => {
 
 // PATCH /users/me — обновляет профиль
 module.exports.updateUserInfo = (req, res, next) => {
-  const { email, name } = req.body;
+  const {email, name} = req.body;
   const userId = req.user._id;
-  User.findByIdAndUpdate(userId, { name, email }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(userId, {name, email}, {new: true, runValidators: true})
     .then((user) => {
       if (!user) {
         throw new ErrorNotFound('Запрашиваемый пользователь не найден');
@@ -35,7 +35,10 @@ module.exports.updateUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
-      } else {
+      } else if (err.code === 11000){
+        next(new ErrorConflict('Пользователь с таким email уже зарегистрирован'));
+      }
+      else {
         next(err);
       }
     });
@@ -43,31 +46,30 @@ module.exports.updateUserInfo = (req, res, next) => {
 
 // Регистрация
 module.exports.signup = (req, res, next) => {
-  const { name, email, password } = req.body;
+  const {name, email, password} = req.body;
 
   bcrypt.hash(password, 10)
-    .then((hash) => User.create({ name, email, password: hash })
+    .then((hash) => User.create({name, email, password: hash})
       .then((user) => {
         const newUser = user.toObject();
         delete newUser.password;
         res.send(newUser);
       }))
     .catch((err) => {
-      if (err.name === 'MongoServerError') {
-        next(new ErrorConflict('Email уже зарегистрирован'));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Email не валидный'));
+      } else if (err.code === 11000) {
+        next(new ErrorConflict('Пользователь с таким email уже зарегистрирован'));
+      } else {
+        next(err);
       }
-
-      if (err.code === 11000) {
-        return next(new ErrorConflict('Пользователь с таким email уже зарегистрирован'));
-      }
-      return next(err);
     });
 };
 
 // Логин
 module.exports.signin = (req, res, next) => {
-  const { email, password } = req.body;
-  User.findOne({ email })
+  const {email, password} = req.body;
+  User.findOne({email})
     .select('+password') // в случае аутентификации хеш пароля нужен
     .then((user) => {
       if (!user) {
@@ -80,20 +82,20 @@ module.exports.signin = (req, res, next) => {
         return Promise.reject(new Unauthorized('Неправильная почта или пароль'));
       }
       const token = jwt.sign(
-        { _id: user._id },
+        {_id: user._id},
         NODE_ENV !== 'production' ? secretTokenKey : JWT_SECRET,
         {
           expiresIn: '7d',
         },
       );
 
-      return res.send({ token });
+      return res.send({token});
     })
     .catch(next);
 };
 
 module.exports.signout = (req, res, next) => {
   res.localStorage.removeItem('jwt')
-    .send({ message: 'Успешный выход' })
+    .send({message: 'Успешный выход'})
     .catch(next);
 };
