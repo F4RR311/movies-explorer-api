@@ -20,5 +20,4 @@ router.post('/signout', signout);
 router.use('*', () => {
   throw new ErrorNotFound('Некорректный путь запроса');
 });
-
 module.exports = router;
