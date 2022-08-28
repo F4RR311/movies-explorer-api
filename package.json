@@ -1,6 +1,5 @@
 {
   "name": "movies-explorer-api",
-
   "version": "1.0.0",
   "description": "Разработка бэкенда для дипломной работы.",
   "main": "index.js",
@@ -23,7 +22,6 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
-
     "validator": "^13.7.0",
     "winston": "^3.7.2"
   },

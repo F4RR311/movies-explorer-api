@@ -3,6 +3,7 @@ const allowedCors = [
   'http://f4rr311.nomoredomains.xyz',
   'localhost:3000',
   'http://localhost:3000',
+
 ];
 
 module.exports = ((req, res, next) => {

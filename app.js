@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const celebrate = require('celebrate');
-const cors = require('./middlewares/cors');
+//const cors = require('./middlewares/cors');
+const cors = require('cors');
 const limiter = require('./middlewares/ratelimiter');
 
 const { errorLogger, requestLogger } = require('./middlewares/logger');
@@ -20,7 +21,8 @@ const app = express();
 
 mongoose.connect(MONGOD_SERVER, { useNewUrlParser: true });
 
-app.use(cors);
+//app.use(cors);
+app.use(cors());
 app.use(requestLogger);
 app.use(limiter);
 
