@@ -21,7 +21,7 @@ mongoose.connect(MONGOD_SERVER);
 
 
 app.use(expressLogger);
-app.use(limiter);
+
 
 app.use(helmet());
 app.use(cookieParser());
