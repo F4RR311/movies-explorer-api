@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-const cors = require('cors');
+//const cors = require('cors');
 const celebrate = require('celebrate');
-
+const cors = require('./middlewares/cors');
 const {errorLogger, expressLogger} = require('./middlewares/logger');
 
 const routes = require('./routes');
@@ -18,14 +18,14 @@ const {PORT = port, MONGOD_SERVER = mongodbServer} = process.env;
 const app = express();
 
 mongoose.connect(MONGOD_SERVER);
-
+app.use(cors);
 
 app.use(expressLogger);
 
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use('*', cors(corsSettings));
+
 
 app.use(routes);
 
