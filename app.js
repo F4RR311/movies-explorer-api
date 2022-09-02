@@ -8,7 +8,7 @@ const cors = require('cors');
 const celebrate = require('celebrate');
 
 const {errorLogger, expressLogger} = require('./middlewares/logger');
-const {limiter} = require('./middlewares/rateLimiter');
+
 const routes = require('./routes');
 const errorsHandler = require('./middlewares/errorHandler');
 const {mongodbServer, port, corsSettings} = require('./utils/config');
@@ -21,7 +21,6 @@ mongoose.connect(MONGOD_SERVER);
 
 
 app.use(expressLogger);
-app.use(limiter);
 
 app.use(helmet());
 app.use(cookieParser());
