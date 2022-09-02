@@ -7,13 +7,13 @@ const helmet = require('helmet');
 const cors = require('cors');
 const celebrate = require('celebrate');
 
-const { errorLogger, expressLogger } = require('./middlewares/logger');
+const {errorLogger, expressLogger} = require('./middlewares/logger');
+const limiter = require('./middlewares/rateLimiter');
 const routes = require('./routes');
 const errorsHandler = require('./middlewares/errorHandler');
-const limiter = require('./middlewares/rateLimiter');
-const { mongodbServer, port, corsSettings } = require('./utils/config');
+const {mongodbServer, port, corsSettings} = require('./utils/config');
 
-const { PORT = port, MONGOD_SERVER = mongodbServer } = process.env;
+const {PORT = port, MONGOD_SERVER = mongodbServer} = process.env;
 
 const app = express();
 
@@ -21,7 +21,7 @@ mongoose.connect(MONGOD_SERVER);
 
 
 app.use(expressLogger);
-
+app.use(limiter);
 
 app.use(helmet());
 app.use(cookieParser());
