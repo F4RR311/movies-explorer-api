@@ -1,6 +1,7 @@
 const allowedCors = [
   'https://f4rr311.nomoredomains.xyz',
   'http://f4rr311.nomoredomains.xyz',
+  'localhost:3000',
   'http://localhost:3000',
 ];
 

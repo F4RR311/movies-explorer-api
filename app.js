@@ -7,6 +7,7 @@ const helmet = require('helmet');
 //const cors = require('cors');
 const celebrate = require('celebrate');
 const cors = require('./middlewares/cors');
+//const limiter = require('./middlewares/ratelimiter');
 const {errorLogger, expressLogger} = require('./middlewares/logger');
 
 const routes = require('./routes');
@@ -28,7 +29,7 @@ app.use(bodyParser.json());
 
 
 app.use(routes);
-
+app.use(expressLogger);
 app.use(errorLogger);
 app.use(celebrate.errors());
 app.use(errorsHandler);
