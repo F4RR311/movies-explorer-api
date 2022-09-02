@@ -4,31 +4,29 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-const celebrate = require('celebrate');
-//const cors = require('./middlewares/cors');
 const cors = require('cors');
-const limiter = require('./middlewares/ratelimiter');
+const celebrate = require('celebrate');
 
-const { errorLogger, requestLogger } = require('./middlewares/logger');
+const { errorLogger, expressLogger } = require('./middlewares/logger');
 const routes = require('./routes');
 const errorsHandler = require('./middlewares/errorHandler');
-
-const { mongodbServer, port } = require('./utils/config');
+const limiter = require('./middlewares/rateLimiter');
+const { mongodbServer, port, corsSettings } = require('./utils/config');
 
 const { PORT = port, MONGOD_SERVER = mongodbServer } = process.env;
 
 const app = express();
 
-mongoose.connect(MONGOD_SERVER, { useNewUrlParser: true });
+mongoose.connect(MONGOD_SERVER);
 
-//app.use(cors);
-app.use(cors());
-app.use(requestLogger);
+
+app.use(expressLogger);
 app.use(limiter);
 
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use('*', cors(corsSettings));
 
 app.use(routes);
 

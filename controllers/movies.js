@@ -1,7 +1,14 @@
 const Movie = require('../models/movie');
+const ForbiddenError = require('../errors/ForbiddenError');
+const NotFoundError = require('../errors/NotFoundError');
 
-const ErrorNotFound = require('../errors/ErrorNotFound_404');
-const Forbidden = require('../errors/Forbidden_403');
+const { DATA_NOT_FOUND_MSG, DELETE_FORBIDDEN_MSG, MOVIE_DELETED_MSG } = require('../utils/constants');
+
+module.exports.getMovies = (req, res, next) => {
+  Movie.find({ owner: req.user._id })
+    .then((movies) => res.send(movies))
+    .catch(next);
+};
 
 module.exports.createMovie = (req, res, next) => {
   req.body.owner = req.user._id;
@@ -11,25 +18,19 @@ module.exports.createMovie = (req, res, next) => {
     .catch(next);
 };
 
-// # возвращает все сохранённые текущим  пользователем фильмы GET /movies
-module.exports.getMovies = (req, res, next) => {
-  Movie.find({ owner: req.user._id })
-    .then((movies) => res.send(movies))
-    .catch(next);
-};
+module.exports.deleteMovie = (req, res, next) => {
+  Movie.findById(req.params._id)
+    .then((movie) => {
+      if (!movie) {
+        throw new NotFoundError(DATA_NOT_FOUND_MSG);
+      }
 
-module.exports.deleteMovie = async (req, res, next) => {
-  try {
-    const movie = await Movie.findById(req.params._id);
-    if (!movie) {
-      throw new ErrorNotFound('Данные не найдены');
-    }
-    if (movie.owner._id.toString() !== req.user._id) {
-      throw new Forbidden('Вы можете удалять только свои фильмы');
-    }
-    await Movie.findByIdAndRemove(req.params._id);
-    res.send(movie);
-  } catch (err) {
-    next(err);
-  }
+      if (movie.owner.toString() !== req.user._id) {
+        throw new ForbiddenError(DELETE_FORBIDDEN_MSG);
+      }
+
+      return movie.remove()
+        .then(() => res.send({ message: MOVIE_DELETED_MSG }));
+    })
+    .catch(next);
 };

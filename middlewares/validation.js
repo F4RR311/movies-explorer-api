@@ -1,36 +1,37 @@
-const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
+const { Joi, celebrate } = require('celebrate');
+const { isURL } = require('validator');
 
 const urlValidator = (value) => {
-  if (!validator.isURL(value, { require_protocol: true })) {
-    throw new Error('Неправильный формат ссылки');
+  if (!isURL(value)) {
+    throw new Error('It\'s not a correct link');
   }
+
   return value;
 };
 
-const validUserId = celebrate({
+const signupValidator = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
+  }),
+});
+
+const signinValidator = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+});
+
+const patchUserValidator = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
   }),
 });
 
-const signupUser = celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30).required(),
-  }),
-});
-
-const signinUser = celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-});
-
-const movieValid = celebrate({
+const movieValidator = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -46,16 +47,16 @@ const movieValid = celebrate({
   }),
 });
 
-const movieId = celebrate({
+const idValidator = celebrate({
   params: Joi.object().keys({
     _id: Joi.string().hex().length(24),
   }),
 });
-module.exports = {
-  movieValid,
-  validUserId,
-  signupUser,
-  signinUser,
-  movieId,
 
+module.exports = {
+  signupValidator,
+  signinValidator,
+  idValidator,
+  patchUserValidator,
+  movieValidator,
 };
