@@ -18,8 +18,7 @@ const corsSettings = {
     'http://f4rr311.nomoredomains.xyz',
     'localhost:3000',
     'http://localhost:3000',
-    'localhost:3001',
-    'http://localhost:3001',
+
   ],
 
   allowedHeaders: [
