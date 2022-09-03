@@ -16,7 +16,12 @@ const corsSettings = {
   origin: [
     'https://f4rr311.nomoredomains.xyz',
     'http://f4rr311.nomoredomains.xyz',
-
+    'http://localhost:3000',
+    'localhost:3000',
+    'http://localhost:3001',
+    'localhost:3001',
+    'http://localhost:3002',
+    'localhost:3002',
   ],
 
   allowedHeaders: [
@@ -30,7 +35,6 @@ const corsSettings = {
   optionsSuccessStatus: 204,
   credentials: true,
 };
-
 
 module.exports = {
   secretTokenKey,
