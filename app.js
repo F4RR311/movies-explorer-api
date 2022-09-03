@@ -24,12 +24,14 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
 
+app.use('*', cors(corsSettings));
+
 app.use(expressLogger);
 
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use('*', cors(corsSettings));
+
 
 
 app.use(routes);

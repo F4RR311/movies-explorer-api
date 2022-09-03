@@ -18,11 +18,11 @@ const corsSettings = {
     // 'https://api.f4rr311.nomoredomains.sbs',
     'https://f4rr311.nomoredomains.xyz',
     'http://f4rr311.nomoredomains.xyz',
-    'https://praktikum.tk',
-    'http://praktikum.tk',
+    'localhost:3000',
     'http://localhost:3000',
     'http://localhost:3001',
   ],
+  credentials: true,
 
   allowedHeaders: [
     'Content-Type',
@@ -33,7 +33,7 @@ const corsSettings = {
   ],
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  credentials: true,
+
 };
 
 module.exports = {
