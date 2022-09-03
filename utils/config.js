@@ -14,8 +14,10 @@ const cookieSettings = {
 
 const corsSettings = {
   origin: [
-    'https://api.f4rr311.nomoredomains.sbs',
-    'https://api.f4rr311.nomoredomains.sbs',
+    // 'https://api.f4rr311.nomoredomains.sbs',
+    // 'https://api.f4rr311.nomoredomains.sbs',
+    'https://f4rr311.nomoredomains.xyz',
+    'http://f4rr311.nomoredomains.xyz',
     'https://praktikum.tk',
     'http://praktikum.tk',
     'http://localhost:3000',
