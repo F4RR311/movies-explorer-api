@@ -7,12 +7,21 @@ const {SIGNIN_MSG, SIGNOUT_MSG, EMAIL_EXIST_MSG} = require('../utils/constants')
 
 const {JWT_SECRET, NODE_ENV} = process.env;
 
-module.exports.getUser = (req, res, next) => {
-  User.findById(req.user._id)
-    .then((user) => res.send(user))
-    .catch(next);
-};
+// module.exports.getUser = async (req, res, next) => {
+//   User.findById(req.user._id)
+//     .then((user) => res.send(user))
+//     .catch(next);
+// };
 
+module.exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) throw new NotFoundError(DEFAUTL_MSG);
+    res.send(user);
+  } catch (e) {
+    next(e);
+  }
+};
 module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
@@ -58,7 +67,7 @@ module.exports.signin = (req, res, next) => {
         jwtSettings,
       );
 
-      res
+        res
         .cookie('jwt', token, cookieSettings)
         .send({message: SIGNIN_MSG});
     })
