@@ -12,8 +12,8 @@ const {errorLogger, expressLogger} = require('./middlewares/logger');
 
 const routes = require('./routes');
 const errorsHandler = require('./middlewares/errorHandler');
-const {corsSettings} = require("./utils/config");
-const {mongodbServer, port} = require('./utils/config');
+
+const {mongodbServer, port, corsSettings } = require('./utils/config');
 
 const {PORT = port, MONGOD_SERVER = mongodbServer} = process.env;
 
