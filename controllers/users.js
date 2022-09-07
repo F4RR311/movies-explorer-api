@@ -8,7 +8,7 @@ const {SIGNIN_MSG, SIGNOUT_MSG, EMAIL_EXIST_MSG} = require('../utils/constants')
 const {JWT_SECRET, NODE_ENV} = process.env;
 
 module.exports.getUser = async (req, res, next) => {
- // User.findById(req.user._id)
+  // User.findById(req.user._id)
   User.findById(req.user._id)
     .then((user) => res.send(user))
     .catch(next);
@@ -59,7 +59,7 @@ module.exports.signin = (req, res, next) => {
         NODE_ENV !== 'production' ? secretTokenKey : JWT_SECRET,
         jwtSettings,
       );
-      return   res
+      res
         .cookie('jwt', token, cookieSettings)
         .send({message: SIGNIN_MSG});
     })
